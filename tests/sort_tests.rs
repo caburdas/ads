@@ -1,4 +1,4 @@
-use ads::sort::{bubble, insertion,  selection, quicksort_hoare};
+use ads::sort::{bubble, insertion,  selection, quicksort, quicksort_hoare};
 use std::time::Instant;
 
 #[test]
@@ -27,6 +27,12 @@ fn benchmarks() {
     let start = Instant::now();
     quicksort_hoare(&mut vec);
     println!("quicksort hoare {:?}", start.elapsed());
+    assert_sorted(&vec);
+
+    let mut vec = v.clone();
+    let start = Instant::now();
+    quicksort(&mut vec);
+    println!("quicksort {:?}", start.elapsed());
     assert_sorted(&vec);
 }
 

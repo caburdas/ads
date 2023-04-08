@@ -40,20 +40,20 @@ pub fn bubble(arr: &mut [i32]) {
 }
 
 pub fn quicksort_hoare(arr: &mut [i32]) {
-    quicksort_hoare2(arr, 0, arr.len()-1)
+    _quicksort_hoare(arr, 0, arr.len()-1)
 }
 
-fn quicksort_hoare2(arr: &mut [i32], l:usize, h:usize) {
+fn _quicksort_hoare(arr: &mut [i32], l:usize, h:usize) {
     if l < h {
         let idx = partition_hoare( arr, l, h);
-        quicksort_hoare2(arr, l, idx);
-        quicksort_hoare2(arr, idx + 1, h );
+        _quicksort_hoare(arr, l, idx);
+        _quicksort_hoare(arr, idx + 1, h );
     }
 }
 
 fn partition_hoare(arr: &mut [i32], l:usize, h:usize) -> usize{
 
-    let p = arr[l]; // CAUTION !!!  Avoid to use as a pivot the last element, it can cause infinite
+    let p = arr[(l+h)/2]; // CAUTION !!!  Avoid to use as a pivot the last element, it can cause infinite
     // loop, you can use inital position l, or the middle position (l+h)/2 to avoid gits.
     let mut i:i32 = l as i32 - 1;
     let mut j:i32 = h as i32 + 1;
@@ -71,6 +71,33 @@ fn partition_hoare(arr: &mut [i32], l:usize, h:usize) -> usize{
         }
         arr.swap(i as usize, j as usize);
     }
+}
+
+pub fn quicksort(arr: &mut [i32]) {
+    _quicksort(arr, 0, arr.len() as i32 -1)
+}
+
+fn _quicksort(arr: &mut [i32], l:i32, h:i32) {
+    if l < h {
+        let idx = partition( arr, l, h);
+        _quicksort(arr, l, idx - 1);
+        _quicksort(arr, idx + 1, h );
+    }
+}
+
+fn partition(arr: &mut [i32], l:i32, h:i32) -> i32{
+
+    let p = arr[h as usize];
+    let mut i:i32 = l as i32 -1;
+    for j in l..h {
+        if arr[j as usize] <= p{
+            i+=1;
+            arr.swap(i as usize, j as usize);
+        }
+    }
+    i+=1;
+    arr.swap(i as usize, h as usize);
+    i
 }
 
 #[cfg(test)]
@@ -103,5 +130,9 @@ mod sort_tests {
             arr,
             [-1237237207, -1056745339, 305086552, 738412784, 2123194479]
         );
+
+        let mut arr = [6, 5, 4, 3, 2, 1, 0];
+        quicksort(&mut arr);
+        assert_eq!(arr, sol);
     }
 }
