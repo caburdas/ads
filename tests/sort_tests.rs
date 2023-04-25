@@ -1,4 +1,4 @@
-use ads::sort::{bubble, insertion,  selection, quicksort, quicksort_hoare};
+use ads::sort::{bubble, insertion, quicksort, quicksort_hoare, selection};
 use std::time::Instant;
 
 #[test]
